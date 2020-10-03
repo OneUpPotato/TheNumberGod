@@ -1,6 +1,6 @@
 <div align="center">
   <img width="256" src="https://i.imgur.com/7PTsMxe.png">
-  <h1>RPANBot</h1>
+  <h1>The Number God</h1>
   <p>The bot that helps run r/Num</p>
 </div>
 
