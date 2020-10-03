@@ -1,0 +1,212 @@
+# Note: These are not the exact settings that are used on The-Number-God
+subreddit: Num
+assignment:
+    flair:
+        text: "#{}"
+        template_id: af687934-3744-11ea-a1e1-0eccf2826007
+    watch:
+        submission_id: hqif56
+        reply_messages:
+            - Thou number shalt be {}.
+            - The Number Gods grant you the number {}.
+            - Hmm... you are now the number {}.
+            - Thy number shalt forever be {}.
+            - You shall be the number {}. The Number Gods have decided so.
+            - The Number Gods, in their infinite wisdom, have appointed you number {}.
+            - The Number Gods gift you the number {}.
+            - I bestow upon you number {}.
+            - Henceforth you shall be known as {}.
+            - The Number Gods have blessed you with the number {}.
+        not_eligible_msg: |-
+            **The Number Gods refuse to give you a number at this time.**
+
+            You do not meet the requirements to receive a number. ^(you are below the karma/account age requirement)
+    numbers:
+        static_max: false
+        min: 1
+        max: 1000
+        blacklist:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+    requirements:
+        account_age: 0
+        karma: 0
+discord:
+    # These are the user ids of the users who should have access to admin/developer commands.
+    admins:
+        - 1
+    developers:
+        - 1
+    ids:
+        main_guild:
+        contact_channel:
+        feed_channels:
+            notd:
+            number_feed:
+            submissions_feed:
+        idea_channels:
+            standard:
+            mod:
+        selection:
+            channel:
+                countries:
+                organizations:
+                ping_notifications:
+            message:
+                countries:
+                organizations:
+                ping_notifications:
+        log_channels:
+            verification_log:
+            confirmation_log:
+            selection_logs:
+                countries:
+                organizations:
+                ping_notifications:
+            nickname_log:
+            update_log:
+    role_ids:
+        nations:
+            000s:
+            100s:
+            200s:
+            300s:
+            400s:
+            500s:
+            600s:
+            700s:
+            800s:
+            900s:
+        countries:
+            Lucky Club:
+            Seven Seas:
+            Deutopia:
+            Unified Unities:
+            Bakery Club:
+            The Primes:
+            Prime Pride:
+            Semi-Prime:
+            Descendants of 3:
+            Tenplars:
+            The Square Syndicate:
+            Millenium Club:
+            Palindromes:
+            Sphenic Sphynxes:
+            Otherwise Boring Numbers:
+        organizations:
+            Church of the Number God:
+            F.A.K.E:
+            Temple of Zero:
+            The Society:
+            Against Triple Digits:
+            Lucky Seas Peace Initiative:
+            The Geographers:
+            "[Citation Needed]":
+            The Most Holy Priory of Zahlenberg:
+            Num Council:
+        odd_and_even:
+            Odd:
+            Even:
+        ping_notifications:
+            Announcements:
+            Number of the Day:
+        other:
+            Verified:
+            Numberless:
+            Moderator:
+    reaction_roles:
+        countries:
+            "🍀": Lucky Club
+            "⛵": Seven Seas
+            "🥈": Deutopia
+            "🦄": Unified Unities
+            "🧁": Bakery Club
+            "<:PrimeEmote:667879119970893853>": The Primes
+            "👁️": Prime Pride
+            "👀": Semi-Prime
+            "<:3_:667055257259343872>": Descendants of 3
+            "<:10plars:667879618707062794>": Tenplars
+            "🔳": The Square Syndicate
+            "<:1000:679358656826834974>": Millenium Club
+            "<:mirror:679359329433944074>": Palindromes
+            "🐱": Sphenic Sphynxes
+            "💤": Otherwise Boring Numbers
+        organizations:
+            "⛪": Church of the Number God
+            "🗞️": F.A.K.E
+            "0️⃣": Temple of Zero
+            "🗺": The Society
+            "🔢": Against Triple Digits
+            "☮️": Lucky Seas Peace Initiative
+            "🌎": The Geographers
+            "📝": "[Citation Needed]"
+            "🌟": The Most Holy Priory of Zahlenberg
+        ping_notifications:
+            "🎆": Announcements
+            "🎂": Number of the Day
+templates:
+    verification:
+        reddit_pm: |-
+            **Discord-Reddit Verification Request (for the r/Num Discord Server)**
+
+            Verification Phrase (on Discord type `$confirm PHRASE`):
+
+            > {verification_phrase}
+
+            ^(If you did not request this please message the subreddit. - Requested by: {discord_user_str} ({discord_user_id}))
+        verified_pm: |-
+            Hello u/{username}! You've successfully been verified on the Num Discord guild.
+
+            {number_information}
+
+            You can join up to two countries that your number is eligible for (using the country-selection channel). You can also join any amount of organizations regardless of your number.
+    num_day_update:
+        submission_text: |-
+            # Hello, everyone!
+
+            It is now Num Day #{num_day}.
+
+            The chosen Number of the Day, for today, is #{notd}, which was granted to u/{notd_user}.
+
+            # Daily Statistics
+
+            * As of this post {stats_assigned} numbers have been given out.
+               * There are {stats_odd} odd numbers and {stats_even} even numbers assigned.
+            * The mean of the numbers is {stats_mean}, and the median is {stats_median}.
+            * The sum of all numbers assigned is {stats_sum}.
+
+            # Points Leaderboard
+
+            |**Place**|**Nation**|**Number of Points**|
+            |:-|:-|:-|
+            {points_leaderboard_text}
+
+            # Newly Assigned Points
+
+            {new_assigned_points_text}
+
+            [^(Assignment Thread)](https://www.reddit.com/r/{subreddit}/comments/{assignment_thread}) ^(|) [^(Getting Started Guide)](https://numbergod.fandom.com/wiki/Guide:_Getting_Started_in_NUM) ^(|) [^(The Num Story)](https://numbergod.fandom.com/wiki/Guide:_The_NUM_Story_So_Far)
+    widgets:
+        sidebar: |-
+            ## Z-Log Date: Day {num_day}
+
+            [Number Assignment Thread](https://www.reddit.com/r/{subreddit}/comments/{assignment_thread}/)
+
+            ----
+
+            **Points Leaderboard**
+
+            {points_leaderboard}
+        widget: |-
+            # Day {num_day}
+
+            [Number Assignment Thread](https://www.reddit.com/r/{subreddit}/comments/{assignment_thread}/)
+
+            ----
+
+            **Points Leaderboard**
+
+            {points_leaderboard}
