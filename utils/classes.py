@@ -78,6 +78,8 @@ class PointsLeaderboard:
         self.reddit = reddit
         self.leaderboard = {"Numberless": 0, "000s": 0, "100s": 0, "200s": 0, "300s": 0, "400s": 0, "500s": 0, "600s": 0, "700s": 0, "800s": 0, "900s": 0}
 
+        self.load()
+
     def load(self) -> None:
         """
         Loads the leaderboard from the Reddit wiki page.
