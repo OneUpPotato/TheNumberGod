@@ -1,6 +1,6 @@
 from discord.utils import get
 from discord.ext.commands import Cog, command, check, bot_has_permissions
-from discord.ext.commands.errors import MissingRequiredArgument, BotMissingPermissions
+from discord.ext.commands.errors import MissingRequiredArgument, BotMissingPermissions, BadArgument
 
 from random import randint
 
@@ -308,7 +308,17 @@ class Verification(Cog):
                 "",
                 embed=NumEmbed(
                     title="Confirmation",
-                    description="The correct usage is \"{self.bot.settings.discord.prefix}confirm (CONFIRMATION CODE)\".\nYou can find the confirmation code in your Reddit inbox after using the verify command.",
+                    description=f"The correct usage is \"{self.bot.settings.discord.prefix}confirm (CONFIRMATION CODE)\".\nYou can find the confirmation code in your Reddit inbox after using the verify command.",
+                    colour="failure",
+                    user=ctx.author,
+                ),
+            )
+        elif isinstance(error, BadArgument):
+            await ctx.send(
+                "",
+                embed=NumEmbed(
+                    title="Confirmation",
+                    description=f"You've input something incorrectly (or not accepted).",
                     colour="failure",
                     user=ctx.author,
                 ),

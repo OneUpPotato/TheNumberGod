@@ -44,13 +44,13 @@ class EventHandler(commands.Cog):
 
         if isinstance(error, commands.MissingRequiredArgument):
             missing_argument = error.param.name
-            embed.description = f"You are missed the following argument: '{missing_argument}'."
+            embed.description = f"You are missing the following argument: '{missing_argument}'."
         elif isinstance(error, commands.TooManyArguments):
             embed.description = "Too many arguments have been given."
         elif isinstance(error, errors.ModeratorCheckFailure):
             embed.description = "You are not able to run this command as you are not a Moderator."
         elif isinstance(error, errors.AdminCheckFailure):
-            embed.description = "You are not authorised to run this command as you are not a bot Admin."
+            embed.description = "You are not authorised to run this command as you are not a bot admin."
         elif isinstance(error, errors.DeveloperCheckFailure):
             embed.description = "You are not authorised to use this command."
         elif isinstance(error, errors.VerifiedCheckFailure):
