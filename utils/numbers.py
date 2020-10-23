@@ -128,7 +128,7 @@ class Numbers:
             number = self.parent.generation.get_random_number() if number == None else number
 
             # Remove a previous number (if the user had one)
-            old_number = self.parent.user_to_num(username)
+            old_number = self.parent.search.user_to_num(username)
             if old_number != None:
                 del self.numbers[old_number]
 
@@ -512,14 +512,9 @@ def is_allowed_number(user: Union[str, Redditor]) -> bool:
     redditor = user
     if isinstance(user, str):
         try:
-            redditor = get_reddit().redditor(redditor)
+            redditor = get_reddit().redditor(user)
         except:
-            redditor = None
-            pass
-
-    # Check that a redditor object was obtained succesfully.
-    if redditor:
-        return False
+            return False
 
     # Ensure that the user meets the account age requirement.
     account_created = redditor.created_utc

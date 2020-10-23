@@ -1,7 +1,6 @@
 from discord.ext.commands import Cog, command
 
 from random import choice
-from textwrap import dedent
 
 from time import sleep
 from threading import Thread
@@ -52,15 +51,21 @@ class Assignment(Cog):
         nation_and_countries = self.bot.numbers.checks.nation_and_countries(number)
         reply_message_template = choice(self.bot.settings.reddit.assignment.reply_messages)
 
+        main_reply_template = """
+This number is {parity} and belongs to the **'{nation}' Nation**
+
+**Number Countries(s)** **^(that you are eligible for):**
+{countries}
+
+[Learn more about groups here.](https://numbergod.fandom.com/wiki/List_of_Groups)
+        """.strip()
+
         countries = "\n".join([f"* {country[0]} | {country[1]}" for country in nation_and_countries["countries"]])
-        return reply_message_template.format(number) + "\n\n" + dedent(f"""
-            This number is {number_parity} and belongs to the **'{nation_and_countries['nation'][0]}' Nation**
-
-            **Number Countries(s)** **^(that you are eligible for):**
-            {countries}
-
-            [Learn more about groups here.](https://numbergod.fandom.com/wiki/List_of_Groups)
-        """).strip()
+        return reply_message_template.format(number) + "\n\n" + main_reply_template.format(
+            parity=number_parity,
+            nation=nation_and_countries['nation'][0],
+            countries=countries,
+        )
 
     def watch_comments(self) -> None:
         """
@@ -106,7 +111,7 @@ class Assignment(Cog):
         except Exception as e:
             print(f"ASSIGNMENT: Exception raised '{e}'.")
             self.bot.sentry.capture_exception(e)
-            sleep(60)
+            sleep(30)
             self.watch_comments()
             return
 
