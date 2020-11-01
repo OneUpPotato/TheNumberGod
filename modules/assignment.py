@@ -71,9 +71,9 @@ This number is {parity} and belongs to the **'{nation}' Nation**
         """
         Watches for comments made on the main subreddit. Then assigns numbers to comments in the assignment thread.
         """
-        try:
-            # Start a comments stream.
-            for comment in self.bot.reddit.main_subreddit.stream.comments(skip_existing=True):
+        # Start a comments stream.
+        for comment in self.bot.reddit.main_subreddit.stream.comments(skip_existing=True):
+            try:
                 # Check that the comment was made on the assignment thread.
                 # If it wasn't then continue on to review the next comment.
                 if comment.submission.id != self.bot.settings.reddit.assignment.id:
@@ -108,12 +108,15 @@ This number is {parity} and belongs to the **'{nation}' Nation**
                     ),
                     self.bot.loop,
                 )
-        except Exception as e:
-            print(f"ASSIGNMENT: Exception raised '{e}'.")
-            self.bot.sentry.capture_exception(e)
-            sleep(30)
-            self.watch_comments()
-            return
+            except Exception as e:
+                print(f"ASSIGNMENT: Exception raised '{e}'.")
+                self.bot.sentry.capture_exception(e)
+
+                sleep(60)
+
+                self.watch_comments()
+
+                return
 
 def setup(bot) -> None:
     bot.add_cog(Assignment(bot))
