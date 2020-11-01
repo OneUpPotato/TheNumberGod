@@ -57,35 +57,33 @@ class Settings:
                 self.parent = main_parent
                 self.sub_parent = sub_parent
 
-                self.assignment = self.parent.settings["assignment"]
-
             @property
             def id(self) -> str:
-                return self.assignment["watch"]["submission_id"]
+                return self.parent.settings["assignment"]["watch"]["submission_id"]
 
             @property
             def flair(self) -> dict:
-                return self.assignment["flair"]
+                return self.parent.settings["assignment"]["flair"]
 
             @property
             def numbers(self) -> dict:
-                return self.assignment["numbers"]
+                return self.parent.settings["assignment"]["numbers"]
 
             @property
             def requirements(self) -> dict:
-                return self.assignment["requirements"]
+                return self.parent.settings["assignment"]["requirements"]
 
             @property
             def blacklisted_numbers(self) -> list:
-                return self.assignment["numbers"]["blacklist"]
+                return self.parent.settings["assignment"]["numbers"]["blacklist"]
 
             @property
             def reply_messages(self) -> list:
-                return self.assignment["watch"]["reply_messages"]
+                return self.parent.settings["assignment"]["watch"]["reply_messages"]
 
             @property
             def not_eligible_msg(self) -> str:
-                return self.assignment["watch"]["not_eligible_msg"]
+                return self.parent.settings["assignment"]["watch"]["not_eligible_msg"]
 
     class discord:
         def __init__(self, parent) -> None:

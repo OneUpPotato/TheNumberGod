@@ -86,7 +86,7 @@ This number is {parity} and belongs to the **'{nation}' Nation**
                 # Ensure that the author isn't the bot and doesn't have a flair.
                 user_flair = next(self.bot.reddit.main_subreddit.flair(comment.author.name))['flair_text']
                 if (comment.author.name == self.bot.reddit.user.me().name
-                    or user_flair not in ["None", ""]):
+                    or user_flair not in [None, ""]):
                     continue
 
                 # Ensure that the comment author is eligible for a number.
