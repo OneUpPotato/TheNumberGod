@@ -1,3 +1,18 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord import Embed, Colour, User, Member
 
 from json import loads, dumps
@@ -9,6 +24,7 @@ from num2words import num2words
 from time import sleep
 from typing import Union
 from threading import Thread
+
 
 class NumEmbed(Embed):
     def __init__(
@@ -46,12 +62,12 @@ class NumEmbed(Embed):
             self.set_thumbnail(url=thumbnail)
 
         # Add the fields (if any).
-        if fields != None:
+        if fields:
             for k, v in fields.items():
                 self.add_field(name=k, value=v, inline=True)
 
         # Add the requested by text to footer.
-        if user != None:
+        if user:
             footer_text_prefix = f"Requested by {user}"
             if footer_text != "":
                 footer_text_prefix += " | "
@@ -72,6 +88,7 @@ class NumEmbed(Embed):
         }
 
         return colour_palette[name]
+
 
 class PointsLeaderboard:
     def __init__(self, reddit) -> None:
@@ -104,14 +121,14 @@ class PointsLeaderboard:
             fields[num2words((i + 1), to="ordinal_num")] = f"{faction_points[0]} ({faction_points[1]} points)"
         return fields
 
-    def leaderboard_table(self, header=True) -> str:
+    def leaderboard_table(self, header: bool = True) -> str:
         """
         Generate a leaderboard table.
         :param header: Whether the table should have a header.
         :return: The generated markdown table.
         """
         table_text = ""
-        if header == True:
+        if header is True:
             table_text = dedent("""
                 |**Place**|**Nation**|**Points**|
                 |:-|:-|:-|
@@ -129,6 +146,7 @@ class PointsLeaderboard:
 
     def __repr__(self) -> str:
         return self.leaderboard_table()
+
 
 class SpamProtection:
     """

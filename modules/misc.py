@@ -1,7 +1,23 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord.ext.commands import Cog, command, check
 
 from utils.classes import NumEmbed
 from utils.checks import is_verified, is_in_main_guild
+
 
 class Misc(Cog):
     def __init__(self, bot) -> None:
@@ -22,7 +38,7 @@ class Misc(Cog):
         nickname_log_channel = self.bot.get_channel(self.bot.settings.discord.ids["log_channels"]["nickname_log"])
 
         # Attempt to set the user's nickname.
-        if nick != None:
+        if nick is not None:
             # Check that their new nickname will be under the Discord 32 character nickname limit.
             new_nickname = f"{number} | {username} | {nick}"
             if len(new_nickname) > 32:
@@ -132,6 +148,7 @@ class Misc(Cog):
 
         # Send a message to the user.
         await ctx.send(f"{ctx.author.mention} Your suggestion has been added to the suggestions channel.")
+
 
 def setup(bot) -> None:
     bot.add_cog(Misc(bot))

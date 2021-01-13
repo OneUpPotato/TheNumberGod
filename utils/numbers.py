@@ -1,3 +1,18 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from math import sqrt
 from statistics import median
 
@@ -14,6 +29,7 @@ from sympy.ntheory import isprime, primefactors
 
 from utils.reddit import get_reddit
 from utils.settings import get_settings
+
 
 class Numbers:
     def __init__(self, reddit, settings) -> None:
@@ -49,7 +65,7 @@ class Numbers:
             try:
                 number = int("".join([char for char in flair["flair_text"].lower().lstrip("#") if char.isnumeric() or char == "-"]))
                 self.numbers[number] = flair["user"].name
-            except:
+            except Exception:
                 pass
         print(f"Loaded {len(self.numbers)} numbers.")
 
@@ -57,7 +73,7 @@ class Numbers:
         """
         Sets the current max number based on the configuration.
         """
-        if self.settings.reddit.assignment.numbers["static_max"] == False:
+        if self.settings.reddit.assignment.numbers["static_max"] is False:
             numbers_assigned = len(list(self.numbers.keys()))
             self.current_max_number = numbers_assigned + len(self.settings.reddit.assignment.numbers["blacklist"]) + self.settings.reddit.assignment.numbers["max"]
         else:
@@ -77,7 +93,7 @@ class Numbers:
             """
             try:
                 return self.numbers[number]
-            except:
+            except Exception:
                 return None
 
         def user_to_num(self, username) -> int:
@@ -88,7 +104,7 @@ class Numbers:
             """
             try:
                 return int(list(self.numbers.keys())[[user_with_number.lower() for user_with_number in self.numbers.values()].index(username.lower())])
-            except:
+            except Exception:
                 return None
 
     class generation:
@@ -125,11 +141,11 @@ class Numbers:
             :param number: Optional. The number to assign the user.
             :return: The number assigned.
             """
-            number = self.parent.generation.get_random_number() if number == None else number
+            number = self.parent.generation.get_random_number() if number is None else number
 
             # Remove a previous number (if the user had one)
             old_number = self.parent.search.user_to_num(username)
-            if old_number != None:
+            if old_number is not None:
                 del self.numbers[old_number]
 
             # Assign the user a flair.
@@ -172,7 +188,7 @@ class Numbers:
             for subreddit in subreddits:
                 try:
                     self.parent.reddit.subreddit(subreddit).contributor.add(username)
-                except:
+                except Exception:
                     pass
 
     @property
@@ -183,16 +199,16 @@ class Numbers:
         """
         number_list = self.numbers.keys()
         stats = {
-            "numbers_given": 0, # Amount of Numbers Given
-            "sum_of_numbers": 0, # The sum of all the numbers.
-            "lowest_positive": 0, # The lowest positive number.
-            "mean": 0, # The mean of all the numbers.
-            "median": 0, # The median of all the numbers.
-            "evens": 0, # The amount of even numbers.
-            "odds": 0, # The amount of odd numbers.
-            "below_500": 0, # The amount of numbers below 500.
-            "below_1000": 0, # The amount of numbers below below 1000.
-            "below_2500": 0, # The amount of numbers below 2500.
+            "numbers_given": 0,  # Amount of Numbers Given
+            "sum_of_numbers": 0,  # The sum of all the numbers.
+            "lowest_positive": 0,  # The lowest positive number.
+            "mean": 0,  # The mean of all the numbers.
+            "median": 0,  # The median of all the numbers.
+            "evens": 0,  # The amount of even numbers.
+            "odds": 0,  # The amount of odd numbers.
+            "below_500": 0,  # The amount of numbers below 500.
+            "below_1000": 0,  # The amount of numbers below below 1000.
+            "below_2500": 0,  # The amount of numbers below 2500.
         }
 
         # Find the lowest positive number.
@@ -253,6 +269,7 @@ class Numbers:
 
     def __repr__(self) -> SortedDict:
         return self.numbers
+
 
 class NumberChecks:
     def __init__(self) -> None:
@@ -495,6 +512,7 @@ class NumberChecks:
                     return False
         return True
 
+
 def get_number_nation(number) -> str:
     """
     Gets the nation of a number.
@@ -502,6 +520,7 @@ def get_number_nation(number) -> str:
     :return: The number's nation.
     """
     return "000s" if len(str(number)) <= 2 else f"{str(number)[-3]}00s"
+
 
 def is_allowed_number(user: Union[str, Redditor]) -> bool:
     """

@@ -1,3 +1,18 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord.ext.commands import Cog, command
 
 from praw.models import Submission
@@ -7,7 +22,9 @@ from threading import Thread
 from asyncio import run_coroutine_threadsafe
 
 from utils.classes import NumEmbed
+from utils.wrappers import stream_wrapper
 from utils.helpers import timestamp_to_datetime
+
 
 class Submissions(Cog):
     def __init__(self, bot) -> None:
@@ -45,24 +62,19 @@ class Submissions(Cog):
 
         await submissions_feed_channel.send("", embed=submission_embed)
 
+    @stream_wrapper
     def watch_submissions(self) -> None:
         """
         Watches for submissions made on the main subreddit and then sends them to the submissions feed.
         """
-        try:
-            # Start a submissions stream.
-            for submission in self.bot.reddit.main_subreddit.stream.submissions(skip_existing=True):
-                # Attempt to send a message to the submissions feed.
-                run_coroutine_threadsafe(
-                    self.send_submissions_feed_message(submission),
-                    self.bot.loop,
-                )
-        except Exception as e:
-            print(f"SUBMISSIONS: Exception raised '{e}'.")
-            self.bot.sentry.capture_exception(e)
-            sleep(60)
-            self.watch_comments()
-            return
+        # Start a submissions stream.
+        for submission in self.bot.reddit.main_subreddit.stream.submissions(skip_existing=True):
+            # Attempt to send a message to the submissions feed.
+            run_coroutine_threadsafe(
+                self.send_submissions_feed_message(submission),
+                self.bot.loop,
+            )
+
 
 def setup(bot) -> None:
     bot.add_cog(Submissions(bot))

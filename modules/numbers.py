@@ -1,7 +1,23 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord.ext.commands import Cog, command
 
 from utils.classes import NumEmbed
 from utils.helpers import filter_username
+
 
 class Numbers(Cog):
     def __init__(self, bot) -> None:
@@ -55,7 +71,7 @@ class Numbers(Cog):
                 colour=0x00C9CC,
                 fields={
                     "Number": f"#{number}",
-                    "Number User": f"u/{number_user}" if number_user != None else "No One" if number != 404 else "Error 404\nNot Found",
+                    "Number User": f"u/{number_user}" if number_user is not None else "No One" if number != 404 else "Error 404\nNot Found",
                     "Nation": nation_and_countries["nation"][0],
                     "Odd/Even": self.bot.numbers.checks.parity(number),
                     "Eligible Countries": countries,
@@ -72,7 +88,7 @@ class Numbers(Cog):
         user_number = self.bot.numbers.search.user_to_num(username)
 
         # Ensure that the user has a number.
-        if user_number == None:
+        if user_number is None:
             await ctx.send(
                 "",
                 embed=NumEmbed(
@@ -111,6 +127,7 @@ class Numbers(Cog):
                 user=ctx.author,
             ),
         )
+
 
 def setup(bot) -> None:
     bot.add_cog(Numbers(bot))

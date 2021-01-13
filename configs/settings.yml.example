@@ -5,7 +5,7 @@ assignment:
         text: "#{}"
         template_id: af687934-3744-11ea-a1e1-0eccf2826007
     watch:
-        submission_id: hqif56
+        submission_id: kvcwpi
         reply_messages:
             - Thou number shalt be {}.
             - The Number Gods grant you the number {}.

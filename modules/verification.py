@@ -1,3 +1,18 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord.utils import get
 from discord.ext.commands import Cog, command, check, bot_has_permissions
 from discord.ext.commands.errors import MissingRequiredArgument, BotMissingPermissions, BadArgument
@@ -11,6 +26,7 @@ from utils.helpers import filter_username
 from utils.numbers import get_number_nation
 from utils.errors import AlreadyVerifiedCheckFailure
 from utils.checks import is_in_main_guild, is_verified, is_not_verified
+
 
 class VerificationHandler:
     def __init__(self, bot) -> None:
@@ -29,7 +45,7 @@ class VerificationHandler:
         :return: A list of the role ids.
         """
         role_ids = []
-        if number != None:
+        if number is not None:
             role_ids = [
                 self.bot.settings.discord.role_ids.nations[get_number_nation(number)],
                 self.bot.settings.discord.role_ids.odd_and_even[self.bot.numbers.checks.parity(number)],
@@ -62,8 +78,9 @@ class VerificationHandler:
                 )
                 if role.id in roles_to_remove:
                     await user.remove_roles(role)
-            except:
+            except Exception:
                 pass
+
 
 class Verification(Cog):
     def __init__(self, bot) -> None:
@@ -231,7 +248,7 @@ class Verification(Cog):
         # Try to delete the user's confirm message, then remove their old roles (if any).
         try:
             await ctx.message.delete()
-        except:
+        except Exception:
             pass
         finally:
             await self.verification_handler.remove_roles(ctx.author)
@@ -249,7 +266,7 @@ class Verification(Cog):
         info_msg = self.bot.settings.templates.verification["verified_pm"]
         number_nation = "Numberless"
         number_parity = "N/A"
-        if number != None:
+        if number is not None:
             nation_and_countries = self.bot.numbers.checks.nation_and_countries(number)
             number_nation = nation_and_countries["nation"][0]
             number_parity = self.bot.numbers.checks.parity(number)
@@ -268,7 +285,7 @@ class Verification(Cog):
 
         try:
             await ctx.author.send(info_msg)
-        except:
+        except Exception:
             pass
         finally:
             confirm_log_channel = self.bot.get_channel(self.bot.settings.discord.ids["log_channels"]["confirmation_log"])
@@ -318,7 +335,7 @@ class Verification(Cog):
                 "",
                 embed=NumEmbed(
                     title="Confirmation",
-                    description=f"You've input something incorrectly (or not accepted).",
+                    description="You've input something incorrectly (or not accepted).",
                     colour="failure",
                     user=ctx.author,
                 ),
@@ -357,7 +374,7 @@ class Verification(Cog):
                         user=ctx.author,
                     ),
                 )
-            except:
+            except Exception:
                 pass
             finally:
                 await self.verification_handler.remove_roles(ctx.author)
@@ -410,6 +427,7 @@ class Verification(Cog):
                 },
             ),
         )
+
 
 def setup(bot) -> None:
     bot.add_cog(Verification(bot))

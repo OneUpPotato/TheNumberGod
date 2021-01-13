@@ -1,6 +1,22 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord.utils import find
 
 import utils.errors as errors
+
 
 def has_role(author, role_id) -> bool:
     """
@@ -9,11 +25,12 @@ def has_role(author, role_id) -> bool:
     """
     try:
         role = find(lambda role: role.id == role_id, author.roles)
-        if role != None:
+        if role is not None:
             return True
-    except:
+    except Exception:
         pass
     return False
+
 
 async def is_in_main_guild(ctx):
     """
@@ -23,9 +40,10 @@ async def is_in_main_guild(ctx):
     try:
         if ctx.guild.id == ctx.bot.settings.discord.main_guild:
             return True
-    except:
+    except Exception:
         pass
     raise errors.MainGuildCheckFailure
+
 
 async def is_not_in_main_guild(ctx):
     """
@@ -35,9 +53,10 @@ async def is_not_in_main_guild(ctx):
     try:
         if ctx.guild.id != ctx.bot.settings.discord.main_guild:
             return True
-    except:
+    except Exception:
         pass
     raise errors.NotMainGuildCheckFailure
+
 
 async def is_developer(ctx):
     """
@@ -47,6 +66,7 @@ async def is_developer(ctx):
     if ctx.author.id in ctx.bot.settings.discord.developers:
         return True
     raise errors.DeveloperCheckFailure
+
 
 async def is_admin(ctx):
     """
@@ -60,6 +80,7 @@ async def is_admin(ctx):
         pass
     raise errors.AdminCheckFailure
 
+
 async def is_moderator(ctx):
     """
     Checks if a user has the moderator role (or is an admin).
@@ -72,6 +93,7 @@ async def is_moderator(ctx):
         pass
     raise errors.ModeratorCheckFailure
 
+
 async def is_verified(ctx):
     """
     Checks if a user is verified.
@@ -80,6 +102,7 @@ async def is_verified(ctx):
     if has_role(ctx.author, ctx.bot.settings.discord.role_ids.other["Verified"]):
         return True
     raise errors.VerifiedCheckFailure
+
 
 async def is_not_verified(ctx):
     """

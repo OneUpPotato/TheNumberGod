@@ -1,3 +1,18 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord import User, Member, Message
 from discord.utils import get
 from discord.ext.commands import Cog, command, check
@@ -7,6 +22,7 @@ from textwrap import dedent
 
 from utils.classes import NumEmbed, SpamProtection
 from utils.checks import is_in_main_guild, is_developer
+
 
 class Reactions(Cog):
     def __init__(self, bot) -> None:
@@ -69,7 +85,7 @@ class Reactions(Cog):
                 # The user is not eligible. Attempt to send a message to them and then the log channel.
                 try:
                     await user.send(f"Your number is not eligible for the '{role_name}' role.")
-                except:
+                except Exception:
                     pass
                 finally:
                     await log_channel.send(
@@ -99,7 +115,7 @@ class Reactions(Cog):
                 # The user is already at the maximum amount of countries.
                 try:
                     await user.send(f"Failed to join '{role_name}'. You are already in two countries, leave one and try again.")
-                except:
+                except Exception:
                     pass
                 finally:
                     await log_channel.send(
@@ -129,7 +145,7 @@ class Reactions(Cog):
         # Attempt to send a message to the user, then send a message to the log channel.
         try:
             await user.send(f"Succesfully added the '{role_name}' role.")
-        except:
+        except Exception:
             pass
         finally:
             await log_channel.send(
@@ -175,7 +191,7 @@ class Reactions(Cog):
         # Attempt to send a message to the user, then send a message to the log channel.
         try:
             await user.send(f"Removed the '{role_name}' role from you.")
-        except:
+        except Exception:
             pass
         finally:
             log_channel = self.bot.get_channel(self.bot.settings.discord.ids["log_channels"]["selection_logs"][category])
@@ -223,7 +239,7 @@ class Reactions(Cog):
                         Please wait around 30 seconds before trying to select roles again.
                         We have a cooldown to prevent spam of the reaction roles.
                     """))
-            except:
+            except Exception:
                 pass
             finally:
                 # Remove their reaction.
@@ -275,6 +291,7 @@ class Reactions(Cog):
                 category,
                 message,
             )
+
 
 def setup(bot) -> None:
     bot.add_cog(Reactions(bot))
