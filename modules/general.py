@@ -1,8 +1,24 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord.ext.commands import Cog, command
 
 from psutil import cpu_percent, virtual_memory
 
 from utils.classes import NumEmbed
+
 
 class General(Cog):
     def __init__(self, bot) -> None:
@@ -38,7 +54,7 @@ class General(Cog):
 
         # Check that the user is in the main guild.
         # This is to prevent misuse of the command.
-        if guild_user == None:
+        if guild_user is None:
             await ctx.send(
                 "",
                 embed=NumEmbed(
@@ -53,7 +69,7 @@ class General(Cog):
         # Attempt to delete the user's contact message.
         try:
             await ctx.message.delete()
-        except:
+        except Exception:
             pass
 
         # Send the message to the staff contact channel
@@ -72,6 +88,7 @@ class General(Cog):
 
         # Let the user know that we've received their message.
         await ctx.author.send("We've received your message. We should get back to you shortly.")
+
 
 def setup(bot) -> None:
     bot.add_cog(General(bot))

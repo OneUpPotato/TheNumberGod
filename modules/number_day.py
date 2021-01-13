@@ -1,3 +1,18 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord.ext.commands import Cog
 from discord.ext.tasks import loop
 
@@ -11,6 +26,7 @@ from datetime import timedelta
 from utils.classes import NumEmbed
 from utils.numbers import get_number_nation
 from utils.helpers import get_time, get_date, get_num_day
+
 
 class NumberDayHandler(Cog):
     def __init__(self, bot) -> None:
@@ -89,7 +105,7 @@ class NumberDayHandler(Cog):
                 username = submission.author.name
                 user_number = self.bot.numbers.search.user_to_num(username)
                 user_nation = "Numberless"
-                if user_number != None:
+                if user_number is not None:
                     user_nation = get_number_nation(user_number)
                 elif username == "OneUpPotato":
                     user_nation = "000s"
@@ -104,7 +120,7 @@ class NumberDayHandler(Cog):
                     nation=user_nation,
                     points_awarded=1,
                 )
-            except:
+            except Exception:
                 pass
 
         if len(submissions) == 0:
@@ -142,7 +158,7 @@ class NumberDayHandler(Cog):
                 title=f"Num Day #{current_num_day} - {current_date}",
                 fields={
                     "Number of the Day": f"#{notd} (u/{notd_user})",
-                    "Awarded Points": f"View the submission.",
+                    "Awarded Points": "View the submission.",
                 },
                 colour=0x739AAF,
                 url=f"https://reddit.com{submission.permalink}",
@@ -165,8 +181,9 @@ class NumberDayHandler(Cog):
 
     @number_day_update.after_loop
     async def after_number_day_update(self) -> None:
-        print(f"NUMBER DAY: Updated. Starting the timer again.")
+        print("NUMBER DAY: Updated. Starting the timer again.")
         self.number_day_update.restart()
+
 
 def setup(bot) -> None:
     bot.add_cog(NumberDayHandler(bot))

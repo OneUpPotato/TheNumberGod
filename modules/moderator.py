@@ -1,3 +1,18 @@
+"""
+Copyright 2020 OneUpPotato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from discord import TextChannel
 from discord.ext.commands import Cog, command, check
 
@@ -9,6 +24,7 @@ from utils.classes import NumEmbed
 from utils.numbers import is_allowed_number
 from utils.checks import is_in_main_guild, is_moderator, is_admin
 from utils.helpers import filter_username, upload_text, get_date_time
+
 
 class Moderator(Cog):
     def __init__(self, bot) -> None:
@@ -27,7 +43,7 @@ class Moderator(Cog):
 
         # Attempt to upload the list and send a message if there was an error uploading it.
         link = upload_text(text)
-        if link == None:
+        if link is None:
             await ctx.send(
                 "",
                 embed=NumEmbed(
@@ -191,7 +207,7 @@ class Moderator(Cog):
         # Attempt to delete the invoking message and then send a message to that channel.
         try:
             await ctx.message.delete()
-        except:
+        except Exception:
             pass
         finally:
             await channel.send(text)
@@ -217,7 +233,7 @@ class Moderator(Cog):
             return
 
         # Get a random avaliable number if one wasn't given.
-        if number == None:
+        if number is None:
             number = self.bot.numbers.generation.get_random_number()
 
         # Send a confirmation message.
@@ -264,6 +280,7 @@ class Moderator(Cog):
                     footer_text="Restricted Cmd",
                 ),
             )
+
 
 def setup(bot) -> None:
     bot.add_cog(Moderator(bot))
