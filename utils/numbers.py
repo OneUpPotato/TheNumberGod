@@ -83,7 +83,6 @@ class Numbers:
     class search:
         def __init__(self, parent) -> None:
             self.parent = parent
-            self.numbers = self.parent.numbers
 
         def num_to_user(self, number) -> str:
             """
@@ -92,7 +91,7 @@ class Numbers:
             :return: The user who has it or None.
             """
             try:
-                return self.numbers[number]
+                return self.parent.numbers[number]
             except Exception:
                 return None
 
@@ -103,14 +102,13 @@ class Numbers:
             :return: The number of that user (or None if they don't have one).
             """
             try:
-                return int(list(self.numbers.keys())[[user_with_number.lower() for user_with_number in self.numbers.values()].index(username.lower())])
+                return int(list(self.parent.numbers.keys())[[user_with_number.lower() for user_with_number in self.parent.numbers.values()].index(username.lower())])
             except Exception:
                 return None
 
     class generation:
         def __init__(self, parent) -> None:
             self.parent = parent
-            self.numbers = self.parent.numbers
 
         def get_random_number(self) -> int:
             """
@@ -118,7 +116,7 @@ class Numbers:
             :return: The random number.
             """
             random_number = randint(self.parent.settings.reddit.assignment.numbers["min"], self.parent.current_max_number)
-            if random_number in (list(self.numbers.keys()) + self.parent.settings.reddit.assignment.blacklisted_numbers):
+            if random_number in (list(self.parent.numbers.keys()) + self.parent.settings.reddit.assignment.blacklisted_numbers):
                 return self.get_random_number()
             else:
                 return random_number
@@ -128,12 +126,11 @@ class Numbers:
             Gets a user with a number.
             :return: A random user and their number.
             """
-            return choice(list(self.numbers.items()))
+            return choice(list(self.parent.numbers.items()))
 
     class assignment:
         def __init__(self, parent) -> None:
             self.parent = parent
-            self.numbers = self.parent.numbers
 
         def assign_number(self, username: str, number: int = None) -> int:
             """
@@ -146,7 +143,7 @@ class Numbers:
             # Remove a previous number (if the user had one)
             old_number = self.parent.search.user_to_num(username)
             if old_number is not None:
-                del self.numbers[old_number]
+                del self.parent.numbers[old_number]
 
             # Assign the user a flair.
             self.parent.reddit.subreddit(self.parent.settings.reddit.subreddit).flair.set(
@@ -159,7 +156,7 @@ class Numbers:
             )
 
             # Add the user to the numbers dictionary.
-            self.numbers[number] = username
+            self.parent.numbers[number] = username
 
             # Approve on the relevant subreddits.
             self.approve_number_subreddits(username, number)
@@ -197,7 +194,7 @@ class Numbers:
         Gets some statistics on the currently assigned numbers.
         :return: The calculated statistics.
         """
-        number_list = self.numbers.keys()
+        number_list = self.parent.numbers.keys()
         stats = {
             "numbers_given": 0,  # Amount of Numbers Given
             "sum_of_numbers": 0,  # The sum of all the numbers.
@@ -265,10 +262,10 @@ class Numbers:
         return stats
 
     def __str__(self) -> str:
-        return str(self.numbers)
+        return str(self.parent.numbers)
 
     def __repr__(self) -> SortedDict:
-        return self.numbers
+        return self.parent.numbers
 
 
 class NumberChecks:
@@ -532,7 +529,7 @@ def is_allowed_number(user: Union[str, Redditor]) -> bool:
     if isinstance(user, str):
         try:
             redditor = get_reddit().redditor(user)
-        except:
+        except Exception:
             return False
 
     # Ensure that the user meets the account age requirement.
