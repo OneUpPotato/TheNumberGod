@@ -262,10 +262,10 @@ class Numbers:
         return stats
 
     def __str__(self) -> str:
-        return str(self.parent.numbers)
+        return str(self.numbers)
 
     def __repr__(self) -> SortedDict:
-        return self.parent.numbers
+        return self.numbers
 
 
 class NumberChecks:
