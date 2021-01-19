@@ -194,7 +194,7 @@ class Numbers:
         Gets some statistics on the currently assigned numbers.
         :return: The calculated statistics.
         """
-        number_list = self.parent.numbers.keys()
+        number_list = self.numbers.keys()
         stats = {
             "numbers_given": 0,  # Amount of Numbers Given
             "sum_of_numbers": 0,  # The sum of all the numbers.
